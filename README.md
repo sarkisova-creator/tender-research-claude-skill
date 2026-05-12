@@ -16,50 +16,35 @@ Given a company profile and a list of portals, this skill:
 
 ---
 
-## Folder Structure
-
-```
-tender-research-claude-skill/
-├── SKILL.md                        ← Main skill instructions (Claude reads this)
-├── references/
-│   ├── portals.md                  ← Portal list + URL patterns + rendering notes
-│   └── filters.md                  ← Keywords, date rules, eligibility criteria
-└── priming-template/
-    ├── company.md                  ← Fill this in with your company profile
-    └── exclusions.md               ← Optional: tender types to always reject
-```
-
----
-
 ## Installation
 
-### 1. Copy the skill into your Claude skills directory
+### Step 1 — Clone the skill
 
-Place the folder at:
-```
-/mnt/skills/user/tender-research/
-```
-
-So the full path to the skill file is:
-```
-/mnt/skills/user/tender-research/SKILL.md
+```bash
+git clone https://github.com/sarkisova-creator/tender-research-claude-skill.git \
+  /mnt/skills/user/tender-research
 ```
 
-### 2. Set up your priming folder
+### Step 2 — Set up your company profile
 
-Create a folder at:
-```
-/mnt/skills/user/tender-research/priming/
-```
-
-Copy `priming-template/company.md` into it and fill in your details:
-```
-/mnt/skills/user/tender-research/priming/company.md       ← Required
-/mnt/skills/user/tender-research/priming/exclusions.md    ← Optional
-/mnt/skills/user/tender-research/priming/team/            ← Optional: CV files (.pdf or .md)
+```bash
+mkdir -p /mnt/skills/user/tender-research/priming
+cp /mnt/skills/user/tender-research/priming-template/company.md \
+   /mnt/skills/user/tender-research/priming/company.md
 ```
 
-> ⚠️ **The skill will not run without `company.md`.** It needs your profile to score tender fit.
+Then open `/mnt/skills/user/tender-research/priming/company.md` and fill in your company details.
+
+> ⚠️ **The skill will not run without `company.md`.** It needs your profile to score tender fit accurately.
+
+### Step 3 — Run it
+
+Tell Claude:
+```
+Search for tenders
+```
+
+That's it.
 
 ---
 
@@ -75,7 +60,7 @@ Check tender portals for new opportunities
 Find RFPs matching our capabilities
 ```
 
-You can also point it to a specific portal:
+Point it to a specific portal:
 ```
 Search for tenders on ted.europa.eu
 Check SAM.gov for AI opportunities
@@ -103,7 +88,7 @@ The spreadsheet contains three sheets:
 | **Skipped** | Filtered-out tenders with rejection reason |
 | **Portal Log** | Every portal visited, status, and result counts |
 
-### Priority flags in the spreadsheet:
+Priority flags:
 
 | Flag | Meaning |
 |------|---------|
@@ -113,15 +98,38 @@ The spreadsheet contains three sheets:
 
 ---
 
+## Folder Structure
+
+```
+tender-research-claude-skill/
+├── SKILL.md                        ← Main skill instructions (Claude reads this)
+├── references/
+│   ├── portals.md                  ← Portal list + URL patterns + rendering notes
+│   └── filters.md                  ← Keywords, date rules, eligibility criteria
+└── priming-template/
+    ├── company.md                  ← Template — copy to priming/ and fill in
+    └── exclusions.md               ← Optional: tender types to always reject
+```
+
+Your priming folder (not committed to the repo — keep it local):
+```
+/mnt/skills/user/tender-research/priming/
+├── company.md          ← Required
+├── exclusions.md       ← Optional
+└── team/               ← Optional: CV files (.pdf or .md)
+```
+
+---
+
 ## Configuring Your Company Profile
 
 Edit `priming/company.md` to describe:
 
-- **What your company does** (capabilities, services, technologies)
+- **What your company does** — capabilities, services, technologies
 - **Sectors you serve**
 - **Team size and key roles**
 - **Minimum contract value and preferred duration**
-- **Geographic eligibility** (which regions/countries you can bid in)
+- **Geographic eligibility** — which regions/countries you can bid in
 - **What to always exclude**
 
 The more specific you are, the more accurate the fit scoring will be.
@@ -138,7 +146,7 @@ The default portal list (`references/portals.md`) covers:
 - **UK:** Find a Tender
 - **Multilateral:** UNGM, World Bank, EBRD, ADB, IFC
 
-You can add your own portals by creating a file at:
+To add your own portals, create:
 ```
 /mnt/skills/user/tender-research/portals.txt
 ```
@@ -149,14 +157,14 @@ One URL per line. Lines starting with `#` are comments. This file overrides the 
 ## Requirements
 
 - **Claude.ai** with Computer Use / bash tool enabled
-- Python 3 with `openpyxl` installed (the skill installs it automatically if missing)
+- Python 3 with `openpyxl` (the skill installs it automatically if missing)
 - Internet access from the Claude container
 
 ---
 
 ## How Portal Scraping Works
 
-Many tender portals use JavaScript rendering, which means direct HTML fetching returns an empty shell. The skill handles this with a three-tier access strategy:
+Many tender portals use JavaScript rendering, so direct HTML fetching returns an empty shell. The skill handles this with a three-tier strategy:
 
 | Tier | Method | When Used |
 |------|--------|-----------|
@@ -179,9 +187,7 @@ Each tender is scored 1–5 across four dimensions:
 | Scope match | Is the project size/budget appropriate? |
 | Risk flags | Any disqualifying conditions? |
 
-**Inclusion threshold: 2.5+**
-
-Tenders scoring below 2.5 are moved to the "Skipped" sheet with a reason noted.
+**Inclusion threshold: 2.5+** — tenders below this go to the "Skipped" sheet with a reason noted.
 
 ---
 
