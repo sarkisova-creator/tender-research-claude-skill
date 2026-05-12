@@ -1,3 +1,5 @@
+<img width="640" height="320" alt="Tender Research" src="https://github.com/user-attachments/assets/effa1b73-9464-498b-9840-954f1fe956a9" />
+
 # 🔍 Tender Research Claude Skill
 
 A Claude skill that automates the full tender/procurement research pipeline — from scraping portals to producing a structured Excel report.
