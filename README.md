@@ -1,5 +1,3 @@
-<img width="640" height="320" alt="Tender Research" src="https://github.com/user-attachments/assets/effa1b73-9464-498b-9840-954f1fe956a9" />
-
 # 🔍 Tender Research Claude Skill
 
 A Claude skill that automates the full tender/procurement research pipeline — from scraping portals to producing a structured Excel report.
@@ -37,7 +35,9 @@ cp /mnt/skills/user/tender-research/priming-template/company.md \
 
 Then open `/mnt/skills/user/tender-research/priming/company.md` and fill in your company details.
 
-> ⚠️ **The skill will not run without `company.md`.** It needs your profile to score tender fit accurately.
+> ⚠️ **The skill will not run without `priming/company.md`.** It needs your profile to score tender fit accurately.
+>
+> The `priming/` folder is intentionally not committed to the repo — it stays local and contains your private company information.
 
 ### Step 3 — Run it
 
@@ -102,21 +102,22 @@ Priority flags:
 
 ## Folder Structure
 
+What's in the repo:
 ```
 tender-research-claude-skill/
 ├── SKILL.md                        ← Main skill instructions (Claude reads this)
 ├── references/
 │   ├── portals.md                  ← Portal list + URL patterns + rendering notes
 │   └── filters.md                  ← Keywords, date rules, eligibility criteria
-└── priming-template/
-    ├── company.md                  ← Template — copy to priming/ and fill in
+└── priming-template/               ← Template files — copy these to set up your priming folder
+    ├── company.md                  ← Fill in with your company profile
     └── exclusions.md               ← Optional: tender types to always reject
 ```
 
-Your priming folder (not committed to the repo — keep it local):
+Your priming folder (local only — created during setup, never committed to the repo):
 ```
 /mnt/skills/user/tender-research/priming/
-├── company.md          ← Required
+├── company.md          ← Required — copied from priming-template/ and filled in
 ├── exclusions.md       ← Optional
 └── team/               ← Optional: CV files (.pdf or .md)
 ```
