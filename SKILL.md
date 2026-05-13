@@ -263,21 +263,22 @@ Then ask: *"Would you like me to do a deeper analysis on any specific tender, or
 
 ## File Structure
 
+Repo contents (cloned to `/mnt/skills/user/tender-research/`):
 ```
 tender-research/
 ├── SKILL.md                        ← This file
 ├── references/
 │   ├── portals.md                  ← Default portal list + URL patterns
 │   └── filters.md                  ← Keywords, date rules, eligibility
-└── priming-template/
-    ├── company.md                  ← Template for user to fill in
+└── priming-template/               ← Template files only — do not read these at runtime
+    ├── company.md                  ← Template for user to copy and fill in
     └── exclusions.md               ← Template for exclusions list
 ```
 
-Priming folder (user-managed, not in skill directory):
+Priming folder (user-managed, local only — created by copying from `priming-template/`):
 ```
 /mnt/skills/user/tender-research/priming/
-├── company.md          ← REQUIRED
+├── company.md          ← REQUIRED — must exist before skill can run
 ├── exclusions.md       ← optional
 └── team/               ← optional CVs
 ```
